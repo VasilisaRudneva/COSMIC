@@ -2,7 +2,10 @@
 Find mutation hotspots from COSMIC data
 
 ### Download VCF file with coding mutations from [COSMIC](https://cancer.sanger.ac.uk/cosmic)
-Process input VCF file
+```
+GRCh38/cosmic/v87/VCF/CosmicCodingMuts.vcf.gz
+```
+### Process input VCF file
 ```
 cat CosmicCodingMuts.vcf | grep -v "#" | awk '{print $3"\t"$1"\t"$2"\t"$8}' | perl -ne 'my @all=split(";",$_);my @res1=split("GENE=", $all[0]); @res2=split("CNT=", pop(@all)); print "$res1[0]\t$res2[1]";' > CosmicCodingMuts.vcf.forR
 ```
@@ -18,10 +21,12 @@ Split by chromosome, sort then merge mutations
 chromosomes="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y MT"
 for c in $chromosomes
 do
+
 echo chr$c
 cat CosmicCodingMuts.vcf.forR | awk -v chr=${c} '{if($2==chr) print}' | sort -k2,2n -k3,3n > CosmicCodingMuts.vcf.forR.chr${c}.txt 
 perl Merge_mutations_into_loci.pl CosmicCodingMuts.vcf.forR.chr${c}.txt chr${c} 10000 
 rm CosmicCodingMuts.vcf.forR.chr${c}.txt
+
 done 
 ```
 Merge into one BED file
