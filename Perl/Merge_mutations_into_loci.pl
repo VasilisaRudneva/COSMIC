@@ -9,7 +9,7 @@ my $max_dist = $ARGV[2];
 
 my @in = split("\\." , $input_file); 
 my $base=shift(@in);
-my $output_file=$base.".".$max_dist.".mutations_count.".$this_chr.".txt";
+my $output_file=$base.".".$max_dist.".mut_count.".$this_chr.".txt";
 
 #print "Parameters: <$input_file> <$this_chr> <$max_dist>; Output: <$output_file>\n";
 
