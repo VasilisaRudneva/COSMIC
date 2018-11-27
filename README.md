@@ -16,15 +16,15 @@ cat MutHotspots.Manhattan.R | R --vanilla --slave &
 ```
 
 ### Merge single variants into genomic loci, in which variants are closer than 10,000 bp to each other
-Split by chromosome, sort then merge mutations
+Split by chromosome, sort then merge mutations (run in parallel with `cat CosmicCodingMuts.vcf.forR | awk -v chr=${c} '{if($2==chr) print}' | sort -k2,2n -k3,3n > CosmicCodingMuts.vcf.forR.chr${c}.txt ; perl Merge_mutations_into_loci.pl CosmicCodingMuts.vcf.forR.chr${c}.txt chr${c} 10000; rm CosmicCodingMuts.vcf.forR.chr${c}.txt &`)
 ```
 chromosomes="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y MT"
 for c in $chromosomes
 do
 
 echo chr$c
-cat CosmicCodingMuts.vcf.forR | awk -v chr=${c} '{if($2==chr) print}' | sort -k2,2n -k3,3n > CosmicCodingMuts.vcf.forR.chr${c}.txt 
-perl Merge_mutations_into_loci.pl CosmicCodingMuts.vcf.forR.chr${c}.txt chr${c} 10000 
+cat CosmicCodingMuts.vcf.forR | awk -v chr=${c} '{if($2==chr) print}' | sort -k2,2n -k3,3n > CosmicCodingMuts.vcf.forR.chr${c}.txt
+perl Merge_mutations_into_loci.pl CosmicCodingMuts.vcf.forR.chr${c}.txt chr${c} 10000
 rm CosmicCodingMuts.vcf.forR.chr${c}.txt
 
 done 
