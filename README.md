@@ -36,6 +36,7 @@ rm CosmicCodingMuts.10000.mut_count.chr*.txt
 ```
 
 ### Annotate with gene names from [Biomart](https://www.ensembl.org/)
+See Data/biomart.gene_coords.bed
 Add "chr" to the beginning of each line
 ```
 cat biomart.gene_coords.bed | awk '{print "chr"$0}' > biomart.gene_coords.CHR.bed
