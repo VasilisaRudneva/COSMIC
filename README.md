@@ -35,12 +35,12 @@ Add "chr" to the beginning of each line
 ```
 cat biomart.gene_coords.bed | awk '{print "chr"$0}' > biomart.gene_coords.CHR.bed
 ```
-Use sort-bed and bedmap tools from [BEDOPS](https://bedops.readthedocs.io/en/latest/index.html#) to sort both BED files
+Use sort-bed tool from [BEDOPS](https://bedops.readthedocs.io/en/latest/index.html#) to sort both BED files
 ```
 sort-bed CosmicCodingMuts.10000.mutations_count.all-chr.txt > CosmicCodingMuts.10000.mutations_count.all-chr.txt.sorted
 sort-bed biomart.gene_coords.CHR.bed > biomart.gene_coords.CHR.bed.sorted
 ```
-Making the output file Answer.txt with mutational hotspots and corresponding gene annotations
+Use bedmap tool to make the output file Answer.txt with mutational hotspots and corresponding gene annotations
 ```
 bedmap --echo --echo-map-id-uniq CosmicCodingMuts.10000.mutations_count.all-chr.txt.sorted biomart.gene_coords.CHR.bed.sorted | sed 's/|/   /g' | awk '$4>1' | awk '$5>29' | sort -k6,6rn -k4,4rn > Answer.txt
 ```
