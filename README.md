@@ -9,7 +9,7 @@ cat CosmicCodingMuts.vcf | grep -v "#" | awk '{print $3"\t"$1"\t"$2"\t"$8}' | pe
 
 ### Manhattan plot
 ```
-cat COSMIC_MutHotspots.Manhattan.R | R --vanilla --slave &
+cat MutHotspots.Manhattan.R | R --vanilla --slave &
 ```
 
 ### Merge single variants into genomic loci, in which variants are closer than 10,000 bp to each other
@@ -20,7 +20,7 @@ for c in $chromosomes
 do
 echo chr$c
 cat CosmicCodingMuts.vcf.forR | awk -v chr=${c} '{if($2==chr) print}' | sort -k2,2n -k3,3n > CosmicCodingMuts.vcf.forR.chr${c}.txt 
-perl COSMIC_merge_mutations_into_loci.pl CosmicCodingMuts.vcf.forR.chr${c}.txt chr${c} 10000 
+perl Merge_mutations_into_loci.pl CosmicCodingMuts.vcf.forR.chr${c}.txt chr${c} 10000 
 rm CosmicCodingMuts.vcf.forR.chr${c}.txt
 done 
 ```
